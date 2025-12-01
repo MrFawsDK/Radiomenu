@@ -94,7 +94,9 @@ Radiomenu/
 
 ## 🐛 Support
 
-Hvis du oplever problemer eller har forslag til forbedringer, er du velkommen til at oprette et issue på GitHub.
+Hvis du oplever problemer eller har forslag til forbedringer:
+- Join vores [Discord Server](https://discord.gg/RKSEutXp)
+- Opret et issue på GitHub
 
 ## 📜 Licens
 
