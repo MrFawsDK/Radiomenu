@@ -13,4 +13,7 @@ shared_scripts {
 
 client_script 'client/main.lua'
 
-dependency 'ox_lib'
+dependencies {
+    'ox_lib',
+    'pma-voice'
+}

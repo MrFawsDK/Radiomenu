@@ -9,6 +9,25 @@ local startTime = 0
 local dicts = {}
 local retries = 0
 
+-- Load saved animation preference (saved locally on client's PC)
+function loadSavedAnimation()
+    local saved = GetResourceKvpInt('fd_radiomenu_animation')
+    if saved and saved > 0 and saved <= #Config.RadioAnimations then
+        currentAnim = saved
+        print('[fd_radiomenu] Loaded saved animation: ' .. currentAnim)
+    else
+        currentAnim = 1
+    end
+end
+
+-- Save animation preference (saved locally on client's PC)
+function saveAnimation(index)
+    if index and index > 0 and index <= #Config.RadioAnimations then
+        SetResourceKvpInt('fd_radiomenu_animation', index)
+        print('[fd_radiomenu] Saved animation: ' .. index)
+    end
+end
+
 function checkPlayer()
     local ped = PlayerPedId()
     return ped and DoesEntityExist(ped) and not IsEntityDead(ped)
@@ -169,6 +188,9 @@ function playAnim(index)
     currentAnim = index
     startTime = GetGameTimer()
     
+    -- Save the selected animation
+    saveAnimation(index)
+    
     if anim.useProp then
         handleProp(true)
     end
@@ -250,7 +272,11 @@ function openMenu()
 end
 
 RegisterCommand('radiomenu', function()
-    if ready then openMenu() end
+    if ready then 
+        openMenu() 
+    else
+        print('[fd_radiomenu] Resource is not ready yet. Please wait...')
+    end
 end, false)
 
 RegisterNetEvent('pma-voice:radioActive', function(talking)
@@ -336,6 +362,19 @@ CreateThread(function()
 end)
 
 CreateThread(function()
+    -- Load saved animation preference
+    loadSavedAnimation()
+    
+    -- Disable pma-voice's built-in radio animations so we can use our custom ones
+    if GetResourceState('pma-voice') == 'started' then
+        local success = pcall(function()
+            exports['pma-voice']:setDisableRadioAnim(true)
+        end)
+        if not success then
+            print('[fd_radiomenu] Warning: Could not disable pma-voice animations')
+        end
+    end
+    
     loadDicts()
     
     RequestModel(model)
@@ -360,11 +399,19 @@ CreateThread(function()
     end
     
     ready = true
+    print('[fd_radiomenu] Resource is ready! Use /radiomenu to open the menu.')
 end)
 
 AddEventHandler('onResourceStop', function(name)
     if GetCurrentResourceName() == name then
         stopAnim()
+        
+        -- Re-enable pma-voice's built-in animations when stopping
+        if GetResourceState('pma-voice') == 'started' then
+            pcall(function()
+                exports['pma-voice']:setDisableRadioAnim(false)
+            end)
+        end
         
         for d, _ in pairs(dicts) do
             if HasAnimDictLoaded(d) then

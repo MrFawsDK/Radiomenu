@@ -2,8 +2,8 @@ Config = {}
 
 Config.RadioAnimations = {
     {
-        label = "Default - Skulder",
-        description = "Normale animation på skulderen.",
+        label = "Radio Animation 1",
+        description = "Radio animation 1",
         dict = "random@arrests",
         anim = "generic_radio_chatter",
         boneIndex = 18905,
@@ -12,8 +12,8 @@ Config.RadioAnimations = {
         useProp = true
     },
     {
-        label = "Radio til Mund", 
-        description = "Holder radioen op til munden som man skal.",
+        label = "Radio Animation 2", 
+        description = "Radio animation 2",
         dict = "anim@male@holding_radio",
         anim = "holding_radio_clip",
         boneIndex = 57005,
@@ -22,8 +22,8 @@ Config.RadioAnimations = {
         useProp = true
     },
     {
-        label = "Militær Radio",
-        description = "Militær stil radio animation.",
+        label = "Radio Animation 3",
+        description = "Radio animation 3",
         dict = "amb@world_human_drinking@coffee@male@base",
         anim = "base",
         boneIndex = 57005,
@@ -32,8 +32,8 @@ Config.RadioAnimations = {
         useProp = true
     },
     {
-        label = "Radio Som telefon",
-        description = "Radio holdt tæt ved øret som en telefon.",
+        label = "Radio Animation 4",
+        description = "Radio animation 4",
         dict = "cellphone@",
         anim = "cellphone_call_listen_base",
         boneIndex = 28422,
